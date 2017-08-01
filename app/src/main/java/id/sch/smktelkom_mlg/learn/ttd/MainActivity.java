@@ -28,14 +28,15 @@ import java.util.HashMap;
 
 public class MainActivity extends AppCompatActivity {
 
+
     Button btnViewProducts;
 
     private static final String URL_DATA = "https://192.168.11.9/db_coba/get_data.php";
-
-    ArrayList<HashMap<String, String>> productsList;
-
+    public static final String ARRAY = "results";
     private static final String TAG_ID = "title";
     private static final String TAG_NAMA = "release_date";
+
+    ArrayList<HashMap<String, String>> productsList;
 
 
     String[] mobileArray = {"Android","IPhone","WindowsMobile","Blackberry",
@@ -78,7 +79,7 @@ public class MainActivity extends AppCompatActivity {
                         progressDialog.dismiss();
                         try{
                             JSONObject jsonObject = new JSONObject(s);
-                            JSONArray array = jsonObject.getJSONArray("results");
+                            JSONArray array = jsonObject.getJSONArray(ARRAY);
 
 
                             for (int i = 0; i < array.length(); i++) {
