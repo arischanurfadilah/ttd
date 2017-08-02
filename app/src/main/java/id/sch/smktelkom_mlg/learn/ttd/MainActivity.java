@@ -31,10 +31,10 @@ public class MainActivity extends AppCompatActivity {
 
     Button btnViewProducts;
 
-    private static final String URL_DATA = "https://192.168.11.9/db_coba/get_data.php";
-    public static final String ARRAY = "results";
-    private static final String TAG_ID = "title";
-    private static final String TAG_NAMA = "release_date";
+    private static final String URL_DATA = "http://192.168.11.137/edii/androidsql/get_data.php";
+    public static final String ARRAY = "tb_coba";
+    private static final String TAG_ID = "id";
+    private static final String TAG_NAMA = "nama";
 
     ArrayList<HashMap<String, String>> productsList;
 
@@ -87,14 +87,14 @@ public class MainActivity extends AppCompatActivity {
 
                                 // Storing each json item in variable
                                 String id = c.getString(TAG_ID);
-                                String name = c.getString(TAG_NAMA);
+                                String nama = c.getString(TAG_NAMA);
 
                                 // creating new HashMap
                                 HashMap<String, String> map = new HashMap<String, String>();
 
                                 // adding each child node to HashMap key => value
                                 map.put(TAG_ID, id);
-                                map.put(TAG_NAMA, name);
+                                map.put(TAG_NAMA, nama);
 
                                 // adding HashList to ArrayList
                                 productsList.add(map);
