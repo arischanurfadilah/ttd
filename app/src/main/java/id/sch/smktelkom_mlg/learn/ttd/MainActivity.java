@@ -4,6 +4,7 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -31,16 +32,18 @@ public class MainActivity extends AppCompatActivity {
 
     Button btnViewProducts;
 
-    private static final String URL_DATA = "http://192.168.11.137/edii/androidsql/get_data.php";
-    public static final String ARRAY = "tb_coba";
-    private static final String TAG_ID = "id";
-    private static final String TAG_NAMA = "nama";
+    private static final String URL_DATA = "http://192.168.0.242/ibuk/get_data.php";
+    public static final String ARRAY = "obat";
+    private static final String TAG_ID = "ID_OBAT";
+    private static final String TAG_NAMA = "NAMA_OBAT";
 
     ArrayList<HashMap<String, String>> productsList;
 
+    ListView listView;
+    ListAdapter adapter;
 
-    String[] mobileArray = {"Android","IPhone","WindowsMobile","Blackberry",
-            "WebOS","Ubuntu","Windows7","Max OS X"};
+
+    String[] mobileArray = {};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,16 +53,28 @@ public class MainActivity extends AppCompatActivity {
         // Hashmap for ListView
         productsList = new ArrayList<HashMap<String, String>>();
 
+
+
+         listView = (ListView) findViewById(R.id.list);
+
+
         loadRecyclerViewData();
 
-        ListView listView = (ListView) findViewById(R.id.list);
 
-        ListAdapter adapter = new SimpleAdapter(this, productsList,
-                R.layout.list_item, new String[] { TAG_ID,
-                TAG_NAMA},
+        Log.i("ARRAY3", productsList.toString());
+
+        adapter = new SimpleAdapter(this, productsList,
+                R.layout.list_item, new String[]
+                { TAG_ID, TAG_NAMA},
                 new int[] { R.id.id, R.id.nama });
 
-        listView.setAdapter(adapter);
+//        ArrayAdapter adapter1 = new ArrayAdapter(this,R.layout.list_item, productsList);
+
+
+        Log.i("ARRAY4", productsList.toString());
+
+
+
 
 
 
@@ -81,9 +96,15 @@ public class MainActivity extends AppCompatActivity {
                             JSONObject jsonObject = new JSONObject(s);
                             JSONArray array = jsonObject.getJSONArray(ARRAY);
 
+                            Log.i("ARRAY1", array.toString());
+
+
+
 
                             for (int i = 0; i < array.length(); i++) {
                                 JSONObject c = array.getJSONObject(i);
+
+                                Log.i("NAMA", c.getString(TAG_ID));
 
                                 // Storing each json item in variable
                                 String id = c.getString(TAG_ID);
@@ -98,7 +119,12 @@ public class MainActivity extends AppCompatActivity {
 
                                 // adding HashList to ArrayList
                                 productsList.add(map);
+
                             }
+
+                            Log.i("ARRAY2", productsList.toString());
+
+                            listView.setAdapter(adapter);
 
                         } catch (JSONException e){
                             e.printStackTrace();
@@ -111,6 +137,7 @@ public class MainActivity extends AppCompatActivity {
                     public void onErrorResponse(VolleyError volleyError) {
                         progressDialog.dismiss();
                         Toast.makeText(getApplication(), volleyError.getMessage(), Toast.LENGTH_LONG).show();
+                        Log.i("ERRORNYA", volleyError.getMessage());
                     }
                 });
 
